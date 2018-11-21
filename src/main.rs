@@ -1,3 +1,14 @@
+//! Guessing game
+//!
+//! Generates a terminal number guessing game by first prompting you for a max
+//! number, then allowing you to guess between 0 and that number, while
+//! providing helpful hints.
+//!
+//! # Quick Start
+//!
+//! To get you started quickly, simply run `cargo run` in the terminal to begin
+//! a game.
+
 extern crate rand;
 
 use rand::Rng;
