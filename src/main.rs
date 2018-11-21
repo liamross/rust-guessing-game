@@ -4,9 +4,21 @@ use rand::Rng;
 use std::cmp::Ordering;
 use std::io;
 
+/// Initializes the guessing game by first prompting for a max number.
+///
+/// # Example
+///
+/// ```
+/// cargo run
+/// ```
+///
+/// # Panics
+///
+/// If fails to read user input into console for max number or play again.
 fn main() {
     println!();
     println!("Welcome to the guessing game.");
+    println!("Type \"quit\" at any time to quit.");
 
     loop {
         let mut max_value = String::new();
@@ -20,8 +32,9 @@ fn main() {
 
         let max_value = match input_parser(max_value) {
             Ok(num) => num,
-            Err(should_return) => {
-                if should_return {
+            Err(typed_quit) => {
+                if typed_quit {
+                    println!("Goodbye!");
                     return;
                 };
                 println!();
@@ -56,6 +69,24 @@ fn main() {
     }
 }
 
+/// Builds a number guessing game between 0 and the provided max number. Returns
+/// true if user won, false if user quit before winning.
+///
+/// # Example
+///
+/// ```
+/// let can_play_again = guess(max_value);
+///
+/// if can_play_again {
+///     println!("You win!");
+/// } else {
+///     println!("Better luck next time.");
+/// }
+/// ```
+///
+/// # Panics
+///
+/// If fails to read user input into console.
 fn guess(max_value: u32) -> bool {
     println!();
     println!("Guess a number from 1 to {}.", max_value);
@@ -74,8 +105,9 @@ fn guess(max_value: u32) -> bool {
 
         let guess: u32 = match input_parser(guess) {
             Ok(num) => num,
-            Err(should_return) => {
-                if should_return {
+            Err(typed_quit) => {
+                if typed_quit {
+                    println!("Goodbye!");
                     return false;
                 };
                 continue;
@@ -103,12 +135,29 @@ fn guess(max_value: u32) -> bool {
     }
 }
 
+/// Parses a user input for a number. If it is a number, returns Ok(num). If
+/// not, checks if it is the string "quit" and returns Err(true). If some other
+/// error, prints that number is invalid and returns Err(false).
+///
+/// # Example
+///
+/// ```
+/// let guess: u32 = match input_parser(guess) {
+///     Ok(num) => num,
+///     Err(typed_quit) => {
+///         if typed_quit {
+///             println!("Goodbye!");
+///             return;
+///         };
+///         continue;
+///     }
+/// };
+/// ```
 fn input_parser(input: String) -> Result<u32, bool> {
     return match input.trim().parse() {
         Ok(num) => Ok(num),
         Err(_) => {
             if input.trim() == "quit" {
-                println!("Goodbye!");
                 return Err(true);
             };
             println!("Invalid number: {}", input.trim());
