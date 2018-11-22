@@ -27,15 +27,13 @@ use std::io;
 ///
 /// If fails to read user input into console for max number or play again.
 fn main() {
-    println!();
-    println!("Welcome to the guessing game.");
+    println!("\nWelcome to the guessing game.");
     println!("Type \"quit\" at any time to quit.");
 
     loop {
         let mut max_value = String::new();
 
-        println!();
-        println!("What is the max value to guess?");
+        println!("\nWhat is the max value to guess?");
 
         io::stdin()
             .read_line(&mut max_value)
@@ -48,7 +46,6 @@ fn main() {
                     println!("Goodbye!");
                     return;
                 };
-                println!();
                 continue;
             }
         };
@@ -62,10 +59,9 @@ fn main() {
 
         if !can_play_again {
             return;
-        }
+        };
 
-        println!();
-        println!("Enter \"y\" to play again.");
+        println!("\nEnter \"y\" to play again.");
 
         let mut play_again = String::new();
 
@@ -86,9 +82,9 @@ fn main() {
 /// # Example
 ///
 /// ```
-/// let can_play_again = guess(max_value);
+/// let won_game = guess(max_value);
 ///
-/// if can_play_again {
+/// if won_game {
 ///     println!("You win!");
 /// } else {
 ///     println!("Better luck next time.");
@@ -99,14 +95,12 @@ fn main() {
 ///
 /// If fails to read user input into console.
 fn guess(max_value: u32) -> bool {
-    println!();
-    println!("Guess a number from 1 to {}.", max_value);
+    println!("\nGuess a number from 1 to {}.", max_value);
 
     let secret_number: u32 = rand::thread_rng().gen_range(1, max_value + 1);
 
     loop {
-        println!();
-        println!("Input your guess!");
+        println!("\nInput your guess!");
 
         let mut guess: String = String::new();
 
@@ -125,12 +119,7 @@ fn guess(max_value: u32) -> bool {
             }
         };
 
-        if guess > max_value {
-            println!("Invalid number: {}", guess);
-            continue;
-        }
-
-        if guess < 1 {
+        if guess > max_value || guess < 1 {
             println!("Invalid number: {}", guess);
             continue;
         }
